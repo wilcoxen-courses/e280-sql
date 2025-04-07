@@ -12,7 +12,7 @@ A key goal of the exercise is to give you experience using Python scripts to wor
 
 ## Input Data
 
-The input data is contained in a zip file called **nysed.zip** that will need to be downloaded from the course Google Drive. It contains four SQLite databases, one for each year, which contain tables selected from the full report card databases posted by NYSED. After downloading the zip file, unzip it in the repository for the assignment. You can then delete the zip file to save space.
+The input data is contained in a zip file called **nysed.zip** that will need to be downloaded from the course Google Drive. It contains four SQLite databases, one for each year, which contain tables selected from the full report card databases posted by NYSED. After downloading the zip file, unzip it in the repository for the assignment. You can then delete the zip file to save space. Also, the end of the demo script optionally uses a database of electricity, **eia860.db** that can be downloaded from the class Google Drive.
 
 ## Deliverables
 
