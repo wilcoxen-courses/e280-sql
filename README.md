@@ -4,15 +4,15 @@
 
 This exercise uses "school report card" data from the New York State Department of Education (NYSED) to assess the impact of the Covid-19 pandemic on English and math proficiency by elementary and high school students in New York State.
 
-It compares district-level average proficiency rates on standardized English and math exams before and after the acute phase of the pandemic. The years 2018 and 2019 are used for the pre-pandemic era. Most standardized exams were not given during the onset of the pandemic in 2020, and few were given in 2021. Regular testing resumed in 2022. As a result, 2022 and 2023 are used as the post-pandemic era.
+It compares district-level average proficiency rates on standardized English and math exams before and after the acute phase of the pandemic. The years 2018 and 2019 are used for the pre-pandemic era. Most standardized exams were not given during the onset of the pandemic in 2020, and few were given in 2021. Regular testing resumed in 2022, so 2022 and 2023 are used as the post-pandemic era.
 
-Proficiency is measured by the percent of students whose scores are rated as "proficient" on two sets of exams: English and math exams given to all fourth grade students, and two exams taken by high school students to demonstrate competence in English and geometry (known as Regents Exams). Results are reported for all students as a group as well as for several subgroups: students identifying as Black or African American; students classified as economically disadvantaged; and students classified as having a disability.
+Proficiency is measured by the percent of students whose scores are rated as "proficient" on two sets of exams: English and math exams given to all fourth grade students, and two exams taken by high school students to demonstrate competence in English and geometry known as Regents Exams. Results are reported for all students as a group as well as for several subgroups: students identifying as Black or African American; students classified as economically disadvantaged; and students classified as having a disability.
 
 A key goal of the exercise is to give you experience using Python scripts to work with SQL databases directly and via Pandas.
 
 ## Input Data
 
-The input data is contained in a zip file called **nysed.zip** that will need to be downloaded from the course Google Drive. It contains four SQLite databases, one for each year, which contain tables selected from the full report card databases posted by NYSED. After downloading the zip file, unzip it in the repository for the assignment. You can then delete the zip file to save space. Also, the end of the demo script optionally uses a database of electricity, **eia860.db** that can be downloaded from the class Google Drive.
+The input data is contained in a zip file called **nysed.zip** that will need to be downloaded from the course Google Drive. It contains four SQLite databases, one for each year, which contain tables selected from the full report card databases posted by NYSED. After downloading the zip file, unzip it in the repository for the assignment. You can then delete the zip file to save space. Also, the end of the demo script optionally uses a database of electric grid data from the Energy Information Administration, **eia860.db**, that can be downloaded from the class Google Drive.
 
 ## Deliverables
 
@@ -75,13 +75,13 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
     1. The `check` variable is a tuple whose first entry is the row count. Add an `assert` statement that checks to make sure that `ntot` is equal to `check[0]`.
 
-    1. Next we'll convert NYSED's marker for suppressed data, an "s", into NULLs. Start another `with out_con` block. Inside it do the following:
+    1. Next we'll convert NYSED's marker for suppressed data, an "s", into NULLs. While we're at it, we'll also convert blanks (also missing data) to NULLs. Start another `with out_con` block. Inside it do the following:
 
         1. Set `cur` to the result of calling `.execute()` on `out_con` with a triple-quoted string giving a SQL `UPDATE` statement for table `exams` that sets `per_prof` to `NULL` where `per_prof` is `'s'` or `per_prof` is `''` (an empty string).
 
     1. After the `with` block, add a print statement that prints an appropriate heading and then the value of `ntot`.
 
-    1. Add another print statement with a heading indicating that it is reporting the number of `'s'` values converted to NULL and the prints `cur.rowcount`.
+    1. Add another print statement with a heading indicating that it is reporting the number of `'s'` and blank values converted to NULL and the prints `cur.rowcount`.
 
 1. Call the `.close()` method on `in_con`.
 
@@ -141,7 +141,7 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
 1. Set `fig,ax` to the result of calling `plt.subplots()`.
 
-1. Use the `.suptitle()` method of `fig` to set the title to an f-string containing the title and level as follows: `"{title}: {level}"`
+1. Use the `.suptitle()` method of `fig` to set the title to an f-string containing the title and level as follows: `f"{title}: {level}"`
 
 1. Draw a set of paired horizontal boxen plots for each group in each era by calling `sns.boxenplot()` with the following arguments: `data=stack`, `x="per_prof"`, `y="subgroup"`, `hue="era"`, `orient="h"`, `order=order`, and `ax=ax`.
 
@@ -151,7 +151,7 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
 1. Call `ax.set_ylabel()` with an empty string as an argument to turn off the Y axis label.
 
-1. Call `ax.set_xlim()` with two parameters: `left=0` and `right=100`. This ensures that all of the graphs will have the same scale for easy comparison.
+1. Call `ax.set_xlim()` with two parameters: `left=-5` and `right=105`. This ensures that all of the graphs will have the same scale for easy comparison. The -5 and 105 create small margins at the left and right since the actual data runs from 0 to 100.
 
 1. Call `fig.tight_layout()`.
 
