@@ -335,7 +335,13 @@ insert_789 = """
 with con:
     cur = con.execute(insert_789)
 
-cur = con.execute("SELECT * FROM summary;")
+select_some = """
+    SELECT * FROM summary
+        WHERE number IN (722,789)
+            ORDER BY name;
+    """
+
+cur = con.execute(select_some)
 show_rows(cur.fetchall())
 
 #%%
