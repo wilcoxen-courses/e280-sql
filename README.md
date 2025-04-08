@@ -60,7 +60,7 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
         1. Start a `with` block with `out_con` as its expression.
 
-            1. Inside the `with` block, set `cur` to the result of calling the `.executemany()` method on `out_con` with two arguments: a triple-quoted f-string with a SQL `INSERT` command that inserts data into `exams` with a `VALUES` clause that contains `(?,?,?,?,?,?,'{level}')`. There should be 6 question marks, which are placeholders for the values of `code`, `name`, `year`, `subgroup`, `exam` and `per_prof`. The final part adds the value of the `level` column. The call executes the `INSERT` statement repeatedly, once for each row in the input data.
+            1. Inside the `with` block, set `cur` to the result of calling the `.executemany()` method on `out_con` with two arguments. The first should be a triple-quoted f-string with a SQL `INSERT` command that inserts data into `exams` with a `VALUES` clause that contains `(?,?,?,?,?,?,'{level}')`. There should be 6 question marks, which are placeholders for the values of `code`, `name`, `year`, `subgroup`, `exam` and `per_prof`. The final part adds the value of the `level` column. The second argument should be `rows`. The call executes the `INSERT` statement repeatedly, once for each row in the input data.
 
             1. Set `nrows` equal to `cur.rowcount`, the count of rows modified by the
             `.executemany()` call.
@@ -69,19 +69,19 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
             1. Add `nrows` to `ntot` to keep a running count of rows added.
 
-    1. After the end of both `for` loops, set `cur` to the value of calling `.execute()` on `out_con` with a SQL statement to count the number of records in `exams`.
+1. After the end of both `for` loops, set `cur` to the value of calling `.execute()` on `out_con` with a SQL statement to count the number of records in `exams`.
 
-    1. Create a variable called `check` that is equal to the result of calling `.fetchone()` on `cur`. That will return the row produced by the previous call.
+1. Create a variable called `check` that is equal to the result of calling `.fetchone()` on `cur`. That will return the row produced by the previous call.
 
-    1. The `check` variable is a tuple whose first entry is the row count. Add an `assert` statement that checks to make sure that `ntot` is equal to `check[0]`.
+1. The `check` variable is a tuple whose first entry is the row count. Add an `assert` statement that checks to make sure that `ntot` is equal to `check[0]`.
 
-    1. Next we'll convert NYSED's marker for suppressed data, an "s", into NULLs. While we're at it, we'll also convert blanks (also missing data) to NULLs. Start another `with out_con` block. Inside it do the following:
+1. Next we'll convert NYSED's marker for suppressed data, an "s", into NULLs. While we're at it, we'll also convert blanks (also missing data) to NULLs. Start another `with out_con` block. Inside it do the following:
 
-        1. Set `cur` to the result of calling `.execute()` on `out_con` with a triple-quoted string giving a SQL `UPDATE` statement for table `exams` that sets `per_prof` to `NULL` where `per_prof` is `'s'` or `per_prof` is `''` (an empty string).
+    1. Set `cur` to the result of calling `.execute()` on `out_con` with a triple-quoted string giving a SQL `UPDATE` statement for table `exams` that sets `per_prof` to `NULL` where `per_prof` is `'s'` or `per_prof` is `''` (an empty string).
 
-    1. After the `with` block, add a print statement that prints an appropriate heading and then the value of `ntot`.
+1. After the `with` block, add a print statement that prints an appropriate heading and then the value of `ntot`.
 
-    1. Add another print statement with a heading indicating that it is reporting the number of `'s'` and blank values converted to NULL and the prints `cur.rowcount`.
+1. Add another print statement with a heading indicating that it is reporting the number of `'s'` and blank values converted to NULL and the prints `cur.rowcount`.
 
 1. Call the `.close()` method on `in_con`.
 
