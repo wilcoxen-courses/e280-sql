@@ -131,7 +131,7 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
 1. Within the function, set `grouped` to be the result of calling the `.groupby()` method on `data` using four columns to define the groups, `name`, `subgroup`, `level`, and `era`.
 
-1. Set `means` equal to the value of applying the `.means()` method to column `"per_prof"` of `grouped`. This calculates the mean score in each era for each district.
+1. Set `means` equal to the value of applying the `.mean()` method to column `"per_prof"` of `grouped`. This calculates the mean score in each era for each district.
 
 1. Set `stack` equal to the result of calling `.reset_index()` on `means`.
 
