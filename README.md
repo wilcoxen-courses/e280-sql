@@ -12,7 +12,7 @@ A key goal of the exercise is to give you experience using Python scripts to wor
 
 ## Input Data
 
-The input data is contained in a zip file called **nysed.zip** that will need to be downloaded from the course Google Drive. It contains four SQLite databases, one for each year, which contain tables selected from the full report card databases posted by NYSED. After downloading the zip file, unzip it in the repository for the assignment. You can then delete the zip file to save space. Also, the end of the demo script optionally uses a database of electric grid data from the Energy Information Administration, **eia860.db**, that can be downloaded from the class Google Drive.
+The input data is contained in a zip file called **nysed.zip** that will need to be downloaded from the course Google Drive. It contains four SQLite databases, one for each year, which contain tables selected from the full report card databases posted by NYSED. After downloading the zip file, unzip it in the repository for the assignment. You can then delete the zip file to save space.
 
 ## Deliverables
 
@@ -42,13 +42,13 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
 1. Proficiency data is stored in three different tables in the input databases: one for EM English (known as ELA for English Language Arts), one for EM math, and one for HS Regents Exams. Also, the EM and HS tables use different column names for the exams being reported. To manage all this, set `exam_tables` to a list consisting of three tuples with the level of the exam, the name of the table where it is found, and the column containing the exam name. The first should consist of `"EM"`, `"Annual EM MATH"`, and `"ASSESSMENT_NAME"`; the second should consist of `"EM"`, `"Annual EM ELA"`, and `"ASSESSMENT_NAME"`; and the third should consist of `"HS"`, `"Annual Regents Exams"`, and `"SUBJECT"`.
 
-1. Start a `for` loop that uses `yr` as the running variable to loop over `years`.
+1. Start a `for` loop that uses `yr` as the loop variable to loop over `years`.
 
     1. Set variable `infile` to `f"nysed{yr}.db"`.
 
     1. Set `in_con` to the result of calling `sqlite3.connect()` with argument `infile` to connect to the input database.
 
-    1. Start a `for` that has the tuple `(level,table,col)` as the running variable and loops over `exam_tables`. Within the loop, do the following:
+    1. Start a `for` that has the tuple `(level,table,col)` as the loop variable and loops over `exam_tables`. Within the loop, do the following:
 
         1. Set `sql` equal to a triple-quoted f-string containing a SQL `SELECT` command as its argument. The command should select columns `ENTITY_CD`, `ENTITY_NAME`, `YEAR`, `SUBGROUP_NAME`, and `{col} AS EXAM`, and `PER_PROF` from table `'{table}'`. Include a `WHERE` clause that specifies that `YEAR` should equal `{yr}` and `ENTITY_CD` should be like `'%0000'` (selects districts or counties) and also not like `'0000%'` (eliminates the counties leaving just the districts).
 
@@ -69,6 +69,8 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
             1. Add `nrows` to `ntot` to keep a running count of rows added.
 
+    1. After the inner `for` loop (the one looping over `exam_tables`) but within the outer `for` loop (the one over `years`) call the `.close()` method on `in_con`. Be careful about indenting: this statement should be even with the `for` that starts the `exam_tables` loop.
+
 1. After the end of both `for` loops, set `cur` to the value of calling `.execute()` on `out_con` with a SQL statement to count the number of records in `exams`.
 
 1. Create a variable called `check` that is equal to the result of calling `.fetchone()` on `cur`. That will return the row produced by the previous call.
@@ -82,8 +84,6 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 1. After the `with` block, add a print statement that prints an appropriate heading and then the value of `ntot`.
 
 1. Add another print statement with a heading indicating that it is reporting the number of `'s'` and blank values converted to NULL and the prints `cur.rowcount`.
-
-1. Call the `.close()` method on `in_con`.
 
 1. Call the `.close()` method on `out_con`.
 
@@ -169,7 +169,7 @@ There are two deliverables: **filtered.py** and **analyze.py**. The first reads 
 
 1. Get the math data by setting `math` equal to the result of calling `get_data()` with three arguments: `"exams"`, `"math"`, and `con`.
 
-1. Analyze it by adding a `for` loop using `level` as the running variable and looping over a list consisting of `"EM"` and `"HS"`.
+1. Analyze it by adding a `for` loop using `level` as the loop variable and looping over a list consisting of `"EM"` and `"HS"`.
 
     1. Call `compare()` with arguments `eng`, `level`, and `'English proficiency'`.
 
