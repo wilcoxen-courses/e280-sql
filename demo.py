@@ -153,6 +153,8 @@ print(data)
 #  term as the primary key: there should only be one entry per term and
 #  it is the main column for linking.
 #
+#  Insert multiple rows at once with a single INSERT statement.
+#
 
 sql_cmds = """
     DROP TABLE IF EXISTS semesters;
@@ -163,13 +165,15 @@ sql_cmds = """
             name VARCHAR
             );
 
-    INSERT INTO semesters VALUES (1231,2022,'Fall');
-    INSERT INTO semesters VALUES (1232,2023,'Spring');
-    INSERT INTO semesters VALUES (1241,2023,'Fall');
-    INSERT INTO semesters VALUES (1242,2024,'Spring');
-    INSERT INTO semesters VALUES (1251,2024,'Fall');
-    INSERT INTO semesters VALUES (1252,2025,'Spring');
-    INSERT INTO semesters VALUES (1261,2025,'Fall');
+    INSERT INTO semesters
+    VALUES
+        (1231,2022,'Fall'  ),
+        (1232,2023,'Spring'),
+        (1241,2023,'Fall'  ),
+        (1242,2024,'Spring'),
+        (1251,2024,'Fall'  ),
+        (1252,2025,'Spring'),
+        (1261,2025,'Fall'  );
     """
 
 with con:
